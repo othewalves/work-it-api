@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE "Copy" ALTER COLUMN "status" SET DEFAULT 'DISPONIVEL';
