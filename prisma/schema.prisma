@@ -7,65 +7,46 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model User {
-  id       String @id @default(uuid())
-  name     String
-  email    String @unique
-  password String
-  role     Role
-  cpf    String  @unique
-  phone  String
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  merchant Merchant?
-  admin    Admin?
-  address  Address?
-  store    Store?
-}
-
-model Merchant {
-  id           String  @id @default(uuid())
-  userId       String  @unique
-  cnpj         String  @unique
-  businessName String
-  phone        String?
-
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
-}
-
-model Admin {
-  id       String  @id @default(uuid())
-  userId   String  @unique
-  position String?
-
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
-}
-
 enum Role {
   CLIENT
   MERCHANT
   ADMIN
 }
 
-model Store {
-  id          String  @id @default(uuid())
-  name        String
-  legalName   String
-  cnpj        String  @unique
-  description String?
-  phone       String?
-  email       String?
-
-  userId    String @unique
-  addressId String @unique
-
-  user    User    @relation(fields: [userId], references: [id])
-  address Address @relation(fields: [addressId], references: [id])
+model User {
+  id       String  @id @default(uuid())
+  name     String
+  email    String  @unique
+  password String
+  role     Role    @default(CLIENT)
+  cpf      String  @unique
+  phone    String
+  photo    String?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  store   Store[]
+  address Address[]
+  // address   Address?
+  // stores    Store[]?   
+}
+
+model Store {
+  id String @id @default(uuid())
+
+  name        String
+  slogan      String?
+  cnpj        String
+  description String?
+  phone       String[]
+  email       String
+  photo       String?
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id])
+
+  address Address[]
 }
 
 model Address {
@@ -77,9 +58,9 @@ model Address {
   city         String
   state        String
 
-  userId  String? @unique
-  storeId String?
+  userId String
+  user   User   @relation(fields: [userId], references: [id])
 
-  user  User?  @relation(fields: [userId], references: [id])
-  store Store?
+  storeId String
+  store   Store  @relation(fields: [storeId], references: [id])
 }

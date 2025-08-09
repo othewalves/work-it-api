@@ -1,4 +1,4 @@
-import { z } from 'zod';
+import { optional, z } from 'zod';
 
 const validRoles = ['CLIENT', 'MERCHANT', 'ADMIN'] as const;
 
@@ -26,7 +26,11 @@ export const createUserSchema = z.object({
     role: z
         .enum(validRoles, {
             errorMap: () => ({ message: 'Tipo de usuário inválido.' })
-        }),
+        })
+        .optional(),
+    photo: z
+        .string()
+        .optional()
 });
 
 export type CreateUserDTO = z.infer<typeof createUserSchema>;

@@ -5,6 +5,6 @@ const authRouter = Router();
 
 const authController = new AuthUserController();
 
-authRouter.post('/sign-in', authController.handle.bind(authController));
+authRouter.post('/', authController.handle.bind(authController));
 
 export { authRouter }

@@ -49,6 +49,8 @@ class UserService {
         }
 
         const user = await repository.updateUser(id, data);
+        console.log('caiu aqui', user);
+
         return user;
     }
 

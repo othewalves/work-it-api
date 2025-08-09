@@ -1,11 +1,10 @@
 import { hash } from "bcryptjs";
 import prisma from "../../prisma/client";
 
-import { User } from "./user.entity";
 import { CreateUserDTO, UpdateUserDTO } from "./schema";
 
 export const findById = async (id: string) => {
-    const user: User = await prisma.user.findFirst({
+    const user = await prisma.user.findFirst({
         where: {
             id
         }
@@ -14,7 +13,7 @@ export const findById = async (id: string) => {
 }
 
 export const findByCPF = async (cpf: string) => {
-    const user: User = await prisma.user.findFirst({
+    const user = await prisma.user.findFirst({
         where: {
             cpf
         }
@@ -23,7 +22,7 @@ export const findByCPF = async (cpf: string) => {
 }
 
 export const findByEmail = async (email: string) => {
-    const user: User = await prisma.user.findFirst({
+    const user = await prisma.user.findFirst({
         where: {
             email
         }
@@ -41,7 +40,8 @@ export const createUser = async (data: CreateUserDTO) => {
             cpf: data.cpf,
             phone: data.phone,
             role: data.role,
-            password: passwordEncrypted
+            password: passwordEncrypted,
+            photo: data.photo
         }, select: {
             email: true,
             name: true,
@@ -59,6 +59,14 @@ export const updateUser = async (id: string, data: UpdateUserDTO) => {
             id
         },
         data: data,
+        select: {
+            id: true,
+            name: true,
+            email: true,
+            cpf: true,
+            phone: true,
+            photo: true,
+        }
     });
 
     return user;

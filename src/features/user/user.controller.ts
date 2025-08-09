@@ -11,9 +11,18 @@ const userService = new UserService();
 class UserController {
     async create(req: Request, res: Response) {
         try {
-            const data: CreateUserDTO = createUserSchema.parse(req.body);
-            const user = await userService.create(data);
-            return res.status(200).json(user);
+
+            if (!req.file) {
+                handleError('error upload file', res)
+            } else {
+                const { filename } = req.file;
+
+                const data: CreateUserDTO = createUserSchema.parse(req.body);
+
+                const user = await userService.create({ ...data, photo: filename });
+
+                return res.status(200).json(user);
+            }
         } catch (error) {
             return handleError(error, res);
         };
@@ -22,7 +31,9 @@ class UserController {
     async getUser(req: Request, res: Response) {
         try {
             const { user_id } = req;
+
             const user = await userService.getUser(user_id);
+
             return res.status(200).json(user)
         } catch (error) {
             return handleError(error, res);
@@ -31,11 +42,22 @@ class UserController {
 
     async update(req: Request, res: Response) {
         try {
-            const { user_id } = req;
-            const data: UpdateUserDTO = UpdateUserSchema.parse(req.body);
-            const user = await userService.update(user_id, data);
-            return res.status(200).json(user);
+            if (!req.file) {
+                handleError('error upload file', res)
+            } else {
+                const { filename } = req.file;
+
+                const { user_id } = req;
+
+                const data: UpdateUserDTO = UpdateUserSchema.parse(req.body);
+
+                const user = await userService.update(user_id, { ...data, photo: filename });
+
+                return res.status(200).json(user);
+            }
         } catch (error) {
+            console.log('caiu aqui', error);
+
             return handleError(error, res);
         }
     }
