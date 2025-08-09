@@ -22,7 +22,10 @@ export const createUserSchema = z.object({
         ),
     password: z
         .string()
-        .min(6, { message: 'A senha deve ter ao menos 6 caracteres' }),
+        .min(6, { message: 'A senha deve ter ao menos 6 caracteres' })
+        .regex(/[A-Z]/, { message: 'A senha deve conter ao menos uma letra maiúscula' })
+        .regex(/[a-z]/, { message: 'A senha deve conter ao menos uma letra minúscula' })
+        .regex(/[^A-Za-z0-9]/, { message: 'A senha deve conter ao menos um caractere especial' }),
     role: z
         .enum(validRoles, {
             errorMap: () => ({ message: 'Tipo de usuário inválido.' })

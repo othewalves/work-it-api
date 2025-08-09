@@ -7,6 +7,12 @@ export const findById = async (id: string) => {
     const user = await prisma.user.findFirst({
         where: {
             id
+        },
+        select: {
+            cpf: true,
+            name: true,
+            email: true,
+            phone: true,
         }
     });
     return user ?? null;
@@ -71,3 +77,29 @@ export const updateUser = async (id: string, data: UpdateUserDTO) => {
 
     return user;
 }
+
+export const forgotPassword = async (newPassword: string, id: string) => {
+    const user = await prisma.user.update({
+        where: {
+            id
+        },
+        data: {
+            password: newPassword
+        }
+    });
+
+    return user;
+};
+
+export const getPassword = async (id: string) => {
+    const user = await prisma.user.findFirst({
+        where: {
+            id
+        },
+        select: {
+            password: true
+        }
+    });
+
+    return user;
+} 

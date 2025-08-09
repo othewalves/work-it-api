@@ -1,12 +1,13 @@
-import { CreateUserDTO, UpdateUserDTO } from "./schema";
+import * as schema from "./schema";
 
 import * as repository from "./user.repository";
 
 import { ExceptionError, validityCPF } from "../../utils";
+import { compare, hash } from "bcryptjs";
 
 class UserService {
 
-    async create(data: CreateUserDTO) {
+    async create(data: schema.CreateUserDTO) {
 
         const isValidCPF = validityCPF(data.cpf);
 
@@ -41,7 +42,7 @@ class UserService {
         return user;
     }
 
-    async update(id: string, data: UpdateUserDTO) {
+    async update(id: string, data: schema.UpdateUserDTO) {
         const userExists = repository.findById(id);
 
         if (!userExists) {
@@ -52,6 +53,36 @@ class UserService {
         console.log('caiu aqui', user);
 
         return user;
+    }
+
+    async forgotPassword(id: string, data: schema.ForgotPasswordDTO) {
+        const userExists = await repository.findById(id);
+
+        if (!userExists) {
+            throw new ExceptionError('Usuário inválido', 401, '')
+        }
+
+        const oldPassword = await repository.getPassword(id);
+
+        const verifyOldPassword = await compare(data.oldPassword, oldPassword.password);
+
+
+        if (!verifyOldPassword) {
+            console.log(verifyOldPassword)
+            throw new ExceptionError('Senha antiga não corresponde', 404, '');
+        }
+
+        if (data.password !== data.confirmPassword) {
+            throw new ExceptionError('Senhas não correspondem', 404, '');
+        }
+        const passwordEncrypted = await hash(data.password, 8);
+
+
+        const payload = await repository.forgotPassword(passwordEncrypted, id);
+
+        return {
+            payload, message: "Senha alterada com sucesso!"
+        }
     }
 
 }

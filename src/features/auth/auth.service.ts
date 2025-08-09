@@ -17,7 +17,7 @@ class AuthUserService {
         const verifyPassword = await compare(data.password, user?.password)
 
         if (!verifyPassword) {
-            throw new ExceptionError(`E-mail e/ou senha inválidos`, 400, 'email');
+            throw new ExceptionError(`E-mail e/ou senha inválidos`, 400, 'password');
         }
 
         const token = generateToken(user);

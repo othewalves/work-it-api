@@ -27,4 +27,9 @@ userRouter.put('/',
     userController.update.bind(userController)
 );
 
+userRouter.put('/forgot-password',
+    isAuthenticated,
+    userController.forgotPassword.bind(userController)
+);
+
 export { userRouter };

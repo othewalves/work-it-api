@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 
 import { UserService } from "./user.service";
 
-import { UpdateUserSchema, UpdateUserDTO, CreateUserDTO, createUserSchema } from "./schema";
+import { UpdateUserSchema, UpdateUserDTO, CreateUserDTO, createUserSchema, ForgotPasswordDTO, forgotPasswordSchema } from "./schema";
 
 import { handleError } from "../../utils";
 
@@ -56,9 +56,23 @@ class UserController {
                 return res.status(200).json(user);
             }
         } catch (error) {
-            console.log('caiu aqui', error);
-
             return handleError(error, res);
+        }
+    }
+
+    async forgotPassword(req: Request, res: Response) {
+        try {
+            const user_id = req.user_id;
+
+            const data: ForgotPasswordDTO = forgotPasswordSchema.parse(req.body);
+
+            const payload = await userService.forgotPassword(user_id, data);
+
+            return res.status(200).json(payload);
+
+        } catch (error) {
+            console.log('CAIUA QUI', error)
+            handleError(error, res)
         }
     }
 };
