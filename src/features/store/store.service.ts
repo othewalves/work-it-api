@@ -1,5 +1,5 @@
 import { ExceptionError } from "../../utils";
-import { CreateStoreDTO } from "./schema";
+import { CreateStoreDTO, UpdateStoreDTO } from "./schema";
 import * as repository from './store.repository';
 
 class StoreService {
@@ -18,6 +18,26 @@ class StoreService {
 
         return store;
     };
+
+    async update(user_id: string, data: UpdateStoreDTO) {
+        const storeExists = await repository.findStoreById(data.id);
+
+        if (!storeExists) {
+            throw new ExceptionError('Loja não existe', 404, '');
+        };
+
+        const user = await repository.findUserById(user_id);
+
+        if (user.id !== storeExists.userId) {
+            throw new ExceptionError('Usuário inválido', 403, '');
+        };
+
+
+        const store = await repository.updateStore(data);
+
+        return store;
+
+    }
 };
 
 export { StoreService };

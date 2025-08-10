@@ -22,11 +22,11 @@ storeRouter.post('/',
     storeController.create.bind(storeController)
 );
 
-// storeRouter.put('/',
-//     isAuthenticated,
-//     upload.single('file'),
-//     storeController.update.bind(storeController)
-// );
+storeRouter.put('/',
+    isAuthenticated,
+    upload.single('file'),
+    storeController.update.bind(storeController)
+);
 
 
 export { storeRouter };
