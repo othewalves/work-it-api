@@ -1,6 +1,12 @@
 import prisma from "../../prisma/client"
 import { CreateStoreDTO, UpdateStoreDTO } from "./schema";
 
+export const listAllStores = async () => {
+    const stores = await prisma.store.findMany();
+
+    return stores;
+}
+
 export const findStoreByCNPJ = async (cnpj: string) => {
     const store = await prisma.store.findFirst({
         where: {
@@ -86,7 +92,8 @@ export const findStoreById = async (id: string) => {
     });
 
     return user;
-}
+};
+
 export const findUserById = async (id: string) => {
     const user = await prisma.user.findFirst({
         where: {
@@ -99,4 +106,5 @@ export const findUserById = async (id: string) => {
     });
 
     return user;
-}
+};
+

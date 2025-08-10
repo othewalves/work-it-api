@@ -3,6 +3,18 @@ import { CreateStoreDTO, UpdateStoreDTO } from "./schema";
 import * as repository from './store.repository';
 
 class StoreService {
+
+    async listAll() {
+        const stores = await repository.listAllStores();
+        return stores;
+    };
+
+    async listById(id: string) {
+        const store = await repository.findStoreById(id);
+
+        return store;
+    };
+
     async create(user_id: string, data: CreateStoreDTO) {
         const storeAlreadyExists = await repository.findStoreByCNPJ(data.cnpj);
 

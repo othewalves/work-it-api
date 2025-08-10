@@ -11,10 +11,12 @@ const upload = multer(uploadConfig.upload('./tmp'));
 
 const storeController = new StoreController();
 
-// storeRouter.get('/',
-//     isAuthenticated,
-//     storeController.create.bind(storeController)
-// );
+storeRouter.get('/',
+    storeController.listAll.bind(storeController)
+);
+storeRouter.get('/:store_id',
+    storeController.listById.bind(storeController)
+);
 
 storeRouter.post('/',
     isAuthenticated,
