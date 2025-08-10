@@ -71,7 +71,6 @@ class UserController {
             return res.status(200).json(payload);
 
         } catch (error) {
-            console.log('CAIUA QUI', error)
             handleError(error, res)
         }
     }
