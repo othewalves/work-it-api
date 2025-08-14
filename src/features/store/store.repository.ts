@@ -5,7 +5,7 @@ export const listAllStores = async () => {
     const stores = await prisma.store.findMany();
 
     return stores;
-}
+};
 
 export const findStoreByCNPJ = async (cnpj: string) => {
     const store = await prisma.store.findFirst({
@@ -15,9 +15,19 @@ export const findStoreByCNPJ = async (cnpj: string) => {
     });
 
     return store;
-}
+};
 
-export const createStore = async (user_id: string, { cnpj, description, email, name, phone, photo, slogan }: CreateStoreDTO) => {
+export const createStore = async (
+    user_id: string, {
+        cnpj,
+        description,
+        email,
+        name,
+        phone,
+        photo,
+        slogan,
+        category
+    }: CreateStoreDTO) => {
     const store = await prisma.store.create({
         data: {
             cnpj,
@@ -27,6 +37,7 @@ export const createStore = async (user_id: string, { cnpj, description, email, n
             phone,
             photo,
             slogan,
+            categoryId: category,
             userId: user_id
         },
         select: {
@@ -37,6 +48,7 @@ export const createStore = async (user_id: string, { cnpj, description, email, n
             phone: true,
             photo: true,
             slogan: true,
+            category: true,
             address: true,
         }
     });
@@ -64,7 +76,7 @@ export const updateUserToMerchant = async (user_id: string) => {
     });
 
     return user;
-}
+};
 
 export const updateStore = async ({ id, name, description, email, phone, photo, slogan }: UpdateStoreDTO) => {
     const store = prisma.store.update({

@@ -24,6 +24,8 @@ class UserController {
                 return res.status(200).json(user);
             }
         } catch (error) {
+            console.log('caiu aqui', error);
+
             return handleError(error, res);
         };
     };

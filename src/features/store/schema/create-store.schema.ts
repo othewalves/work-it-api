@@ -7,6 +7,9 @@ export const createStoreSchema = z.object({
     slogan: z
         .string()
         .optional(),
+    category: z
+        .string()
+        .min(1, { message: "A categoria é obrigatória" }),
     cnpj: z
         .string()
         .min(14, { message: "O CNPJ deve ter no mínimo 14 caracteres" })

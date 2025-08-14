@@ -7,5 +7,5 @@ export const hasPermission = async (id: string) => {
         }
     });
 
-    return isLibrarian.role === 'BIBLIOTECARIO' ? true : false;
+    return isLibrarian.role === 'ADMIN' ? true : false;
 };

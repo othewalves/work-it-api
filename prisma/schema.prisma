@@ -43,8 +43,12 @@ model Store {
   email       String
   photo       String?
 
+
   userId String
   user   User   @relation(fields: [userId], references: [id])
+
+  categoryId String
+  category Category @relation(fields: [categoryId], references: [id])
 
   address Address[]
 }
@@ -63,4 +67,14 @@ model Address {
 
   storeId String
   store   Store  @relation(fields: [storeId], references: [id])
+}
+
+model Category {
+  id   String @id @default(uuid())
+  name String @unique
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt()
+
+  store Store[]
 }
