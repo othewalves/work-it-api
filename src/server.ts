@@ -4,13 +4,15 @@ import path from 'path';
 
 import * as router from './routes';
 
-// import {cors} from 'cors';
+import cors from 'cors';
 const app = express();
-const PORT = 3000;
+const PORT = 5000;
 
 app.use(express.json());
-// app.use(cors());
-
+app.use(cors({
+    origin: "http://localhost:3000",
+    credentials: true,
+}));
 app.use(
     '/files',
     express.static(path.resolve(__dirname, '..', 'tmp'))
@@ -21,7 +23,7 @@ app.get('/', (_req: Request, res: Response) => {
 });
 
 app.use('/user', router.userRouter);
-app.use('/auth', router.authRouter);
+app.use('/api/auth', router.authRouter);
 app.use('/store', router.storeRouter);
 app.use('/category', router.categoryRouter);
 
