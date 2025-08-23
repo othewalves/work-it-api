@@ -6,7 +6,7 @@ import { loginUser } from './auth.repository';
 import { ExceptionError, generateToken } from '../../utils';
 
 class AuthUserService {
-    async execute(data: AuthUserDTO) {
+    async login(data: AuthUserDTO) {
 
         const user = await loginUser(data);
 
@@ -27,9 +27,10 @@ class AuthUserService {
                 id: user.id,
                 name: user.name,
                 email: user.email,
+                role: user.role,
+                store: user.store
             },
             token: token
-
         }
     };
 };

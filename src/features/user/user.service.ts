@@ -12,7 +12,7 @@ class UserService {
         const isValidCPF = validityCPF(data.cpf);
 
         if (!isValidCPF) {
-            throw new ExceptionError("CPF inválido", 409, 'cpf');
+            throw new ExceptionError("CPFinválido", 409, 'cpf');
         }
 
         const userExists = await repository.findByEmail(data.email);

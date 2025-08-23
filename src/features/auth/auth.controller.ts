@@ -1,22 +1,42 @@
 import { Request, Response } from "express";
-
-import { AuthUserDTO, AuthUserSchema } from "./auth.schema";
 import { AuthUserService } from "./auth.service";
-
+import { AuthUserDTO, AuthUserSchema } from "./auth.schema";
 import { handleError } from "../../utils";
 
 class AuthUserController {
-    async handle(req: Request, res: Response) {
+    async login(req: Request, res: Response) {
         try {
-            const authData: AuthUserDTO = AuthUserSchema.parse(req.body);
+            const data: AuthUserDTO = AuthUserSchema.parse(req.body);
 
-            const auth = await new AuthUserService().execute(authData);
+            const auth = await new AuthUserService().login(data);
 
-            return res.status(200).json(auth);
+            // Setar cookie com token JWT
+            res.cookie('workit_token', auth.token, {
+                httpOnly: true,
+                secure: false, // em localhost
+                sameSite: 'lax',
+                maxAge: 15 * 24 * 60 * 60 * 1000, // 15 dias
+                path: '/'
+            });
 
+            return res.status(200).json({ user: auth.user });
         } catch (error) {
             return handleError(error, res);
-        };
-    };
-};
+        }
+    }
+    async logout(req: Request, res: Response) {
+        try {
+            res.clearCookie('workit_token', {
+                httpOnly: true,
+                secure: false,
+                sameSite: 'lax',
+            });
+            res.status(200).json({ message: 'Logout feito com sucesso' });
+
+        } catch (error) {
+            return handleError(error, res)
+        }
+    }
+}
+
 export { AuthUserController };

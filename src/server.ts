@@ -4,15 +4,24 @@ import path from 'path';
 
 import * as router from './routes';
 
+import cookieParser from 'cookie-parser';
+
 import cors from 'cors';
+
 const app = express();
+
 const PORT = 5000;
 
 app.use(express.json());
+
+app.use(cookieParser());
+
 app.use(cors({
     origin: "http://localhost:3000",
     credentials: true,
 }));
+
+
 app.use(
     '/files',
     express.static(path.resolve(__dirname, '..', 'tmp'))

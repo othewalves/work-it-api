@@ -17,7 +17,6 @@ userRouter.get('/',
 );
 
 userRouter.post('/',
-    upload.single('file'),
     userController.create.bind(userController)
 );
 

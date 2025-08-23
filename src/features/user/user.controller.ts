@@ -12,19 +12,15 @@ class UserController {
     async create(req: Request, res: Response) {
         try {
 
-            if (!req.file) {
-                handleError('error upload file', res)
-            } else {
-                const { filename } = req.file;
+            // const { filename } = req.file;
 
-                const data: CreateUserDTO = createUserSchema.parse(req.body);
+            const data: CreateUserDTO = createUserSchema.parse(req.body);
 
-                const user = await userService.create({ ...data, photo: filename });
+            const user = await userService.create({ ...data, photo: 'exemplo.png' });
 
-                return res.status(200).json(user);
-            }
+            return res.status(200).json(user);
+
         } catch (error) {
-            console.log('caiu aqui', error);
 
             return handleError(error, res);
         };
