@@ -37,6 +37,7 @@ app.get('/', (_req: Request, res: Response) => {
 app.use('/user', router.userRouter);
 app.use('/api/auth', router.authRouter);
 app.use('/store', router.storeRouter);
+app.use('/solution', router.solutionRouter);
 app.use('/address', router.addressRouter);
 app.use('/category', router.categoryRouter);
 
