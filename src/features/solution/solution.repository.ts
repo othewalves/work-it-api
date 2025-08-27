@@ -1,3 +1,4 @@
+
 import prisma from "../../prisma/client";
 import { CreateSolutionDTO } from "./schema";
 
@@ -24,7 +25,7 @@ export const create = async ({
     return solution
 }
 
-export const storeExists = async (id: string) => {
+export const findStoreById = async (id: string) => {
     const store = await prisma.store.findFirst({
         where: {
             id
@@ -32,4 +33,14 @@ export const storeExists = async (id: string) => {
     })
 
     return store;
+}
+
+export const findSolutionsByStore = async (store_id: string) => {
+    const solutions = await prisma.solution.findMany({
+        where: {
+            store_id
+        }
+    })
+
+    return solutions;
 }
