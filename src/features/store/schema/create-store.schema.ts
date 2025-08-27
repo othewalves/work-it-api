@@ -21,11 +21,8 @@ export const createStoreSchema = z.object({
         .string()
         .optional(),
     phone: z
-        .array(
-            z
-                .string()
-                .min(8, { message: "O telefone deve ter no mínimo 8 dígitos" })
-        )
+        .string()
+        .min(8, { message: "O telefone deve ter no mínimo 8 dígitos" })
         .nonempty({ message: "É necessário informar pelo menos um telefone" }),
     email: z
         .string()

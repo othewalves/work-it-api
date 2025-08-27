@@ -1,12 +1,13 @@
 import prisma from "../../prisma/client"
 import { CreateAddressDTO } from "./schema/"
 
-export const findUserById = async (userId: string) => {
-    const user = prisma.user.findFirst({
+export const findStore = async (id: string) => {
+    const store = prisma.store.findFirst({
         where: {
-            id: userId
+            id
         }
     });
+    return store;
 };
 
 export const create = async (
@@ -17,7 +18,6 @@ export const create = async (
         state,
         storeId,
         street,
-        userId,
         zipCode
     }: CreateAddressDTO
 ) => {
@@ -29,7 +29,6 @@ export const create = async (
             state,
             storeId,
             street,
-            userId,
             postalCode: zipCode
         }
     });

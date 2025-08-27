@@ -41,6 +41,7 @@ export const createStore = async (
             userId: user_id
         },
         select: {
+            id: true,
             cnpj: true,
             description: true,
             email: true,
@@ -120,3 +121,12 @@ export const findUserById = async (id: string) => {
     return user;
 };
 
+export const findStoreByOwner = async (userId: string) => {
+    const stores = await prisma.store.findMany({
+        where: {
+            userId
+        }
+    });
+
+    return stores;
+};

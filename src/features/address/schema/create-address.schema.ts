@@ -19,10 +19,6 @@ export const createAddressSchema = z.object({
     state: z
         .string()
         .length(2, { message: "O estado deve ter 2 caracteres" }),
-    userId: z
-        .string()
-        .uuid()
-        .optional(),
     storeId: z
         .string()
         .uuid()

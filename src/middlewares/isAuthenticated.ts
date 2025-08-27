@@ -7,13 +7,14 @@ interface IPayload {
 
 export const isAuthenticated = (req: Request, res: Response, next: NextFunction): void => {
     const authToken = req.headers.authorization;
+    const token = req.cookies.workit_token;
 
-    if (!authToken) {
-        res.status(401).end();
-        return;
-    }
+    // if (!authToken) {
+    //     res.status(401).end();
+    //     return;
+    // }
 
-    const [, token] = authToken.split(' ');
+    // const [, token] = authToken.split(' ');
 
 
     try {

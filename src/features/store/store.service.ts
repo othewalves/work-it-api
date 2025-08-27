@@ -16,11 +16,14 @@ class StoreService {
     };
 
     async create(user_id: string, data: CreateStoreDTO) {
+        console.log('DADOS RECEBIDOS', data);
+
         const storeAlreadyExists = await repository.findStoreByCNPJ(data.cnpj);
 
         if (storeAlreadyExists) {
             throw new ExceptionError('CNPJ já existente', 401, '');
         };
+        console.log('CAIU aqui? 1');
 
         const store = await repository.createStore(user_id, data);
 
@@ -28,6 +31,7 @@ class StoreService {
             await repository.updateUserToMerchant(user_id);
         }
 
+        console.log('CAIU aqui? 2');
         return store;
     };
 
@@ -48,6 +52,23 @@ class StoreService {
         const store = await repository.updateStore(data);
 
         return store;
+
+    }
+
+    async listByOwner(userId: string) {
+        const userExists = await repository.findUserById(userId);
+
+        if (!userExists) {
+            throw new ExceptionError('Usuário inválido', 403, '');
+        };
+
+        const stores = await repository.findStoreByOwner(userId);
+
+        if (stores.length === 0) {
+            throw new ExceptionError('Não foi encontrado comércios relacionados ao usuário', 400, '');
+        }
+
+        return stores;
 
     }
 };

@@ -11,7 +11,6 @@ const userService = new UserService();
 class UserController {
     async create(req: Request, res: Response) {
         try {
-
             // const { filename } = req.file;
 
             const data: CreateUserDTO = createUserSchema.parse(req.body);

@@ -19,8 +19,11 @@ app.use(cookieParser());
 app.use(cors({
     origin: "http://localhost:3000",
     credentials: true,
+    allowedHeaders: ["Content-Type", "Authorization"], // inclui os headers que vc usa
+    methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
 }));
 
+// app.disable("etag");
 
 app.use(
     '/files',
@@ -34,6 +37,7 @@ app.get('/', (_req: Request, res: Response) => {
 app.use('/user', router.userRouter);
 app.use('/api/auth', router.authRouter);
 app.use('/store', router.storeRouter);
+app.use('/address', router.addressRouter);
 app.use('/category', router.categoryRouter);
 
 app.listen(PORT, () => {

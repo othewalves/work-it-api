@@ -14,6 +14,12 @@ const storeController = new StoreController();
 storeRouter.get('/',
     storeController.listAll.bind(storeController)
 );
+
+storeRouter.get('/owner',
+    isAuthenticated,
+    storeController.listByOwner.bind(storeController)
+);
+
 storeRouter.get('/:store_id',
     storeController.listById.bind(storeController)
 );

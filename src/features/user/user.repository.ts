@@ -13,6 +13,7 @@ export const findById = async (id: string) => {
             name: true,
             email: true,
             phone: true,
+            store: true,
         }
     });
     return user ?? null;
@@ -72,6 +73,7 @@ export const updateUser = async (id: string, data: UpdateUserDTO) => {
             cpf: true,
             phone: true,
             photo: true,
+            store: true,
         }
     });
 

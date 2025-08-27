@@ -27,7 +27,7 @@ model User {
   updatedAt DateTime @updatedAt
 
   store   Store[]
-  address Address[]
+  // address Address[]
   // address   Address?
   // stores    Store[]?   
 }
@@ -39,7 +39,7 @@ model Store {
   slogan      String?
   cnpj        String
   description String?
-  phone       String[]
+  phone       String
   email       String
   photo       String?
 
@@ -62,8 +62,8 @@ model Address {
   city         String
   state        String
 
-  userId String
-  user   User   @relation(fields: [userId], references: [id])
+  // userId String
+  // user   User   @relation(fields: [userId], references: [id])
 
   storeId String
   store   Store  @relation(fields: [storeId], references: [id])

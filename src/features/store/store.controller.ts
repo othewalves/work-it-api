@@ -17,6 +17,17 @@ class StoreController {
         };
     };
 
+    async listByOwner(req: Request, res: Response) {
+        try {
+            const user_id = req.user_id;
+            const stores = await storeService.listByOwner(user_id);
+
+            return res.status(200).json(stores);
+        } catch (error) {
+            return handleError(error, res);
+        };
+    };
+
     async listById(req: Request, res: Response) {
         try {
             const { store_id } = req.params;
