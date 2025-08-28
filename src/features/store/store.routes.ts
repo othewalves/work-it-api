@@ -26,9 +26,13 @@ storeRouter.get('/:store_id',
 
 storeRouter.post('/',
     isAuthenticated,
-    upload.single('file'),
     storeController.create.bind(storeController)
 );
+// storeRouter.post('/',
+//     isAuthenticated,
+//     upload.single('file'),
+//     storeController.create.bind(storeController)
+// );
 
 storeRouter.put('/',
     isAuthenticated,

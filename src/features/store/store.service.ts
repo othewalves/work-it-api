@@ -23,7 +23,6 @@ class StoreService {
         if (storeAlreadyExists) {
             throw new ExceptionError('CNPJ já existente', 401, '');
         };
-        console.log('CAIU aqui? 1');
 
         const store = await repository.createStore(user_id, data);
 
@@ -31,7 +30,6 @@ class StoreService {
             await repository.updateUserToMerchant(user_id);
         }
 
-        console.log('CAIU aqui? 2');
         return store;
     };
 

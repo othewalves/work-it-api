@@ -7,7 +7,7 @@ import * as router from './routes';
 import cookieParser from 'cookie-parser';
 
 import cors from 'cors';
-
+import fileUpload from 'express-fileupload';
 const app = express();
 
 const PORT = 5000;
@@ -24,6 +24,12 @@ app.use(cors({
 }));
 
 // app.disable("etag");
+
+app.use(fileUpload({
+    limits: {
+        fileSize: 50 * 1024 * 1024
+    }
+}))
 
 app.use(
     '/files',
