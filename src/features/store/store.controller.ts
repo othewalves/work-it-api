@@ -92,13 +92,25 @@ class StoreController {
             if (!req.file) {
                 handleError('error upload file', res)
             } else {
-                const { filename } = req.file;
+                // const { filename } = req.file;
+                const file: UploadedFile = req.files['file']
+
+                const resultFile: UploadApiResponse = await new Promise((resolve, reject) => {
+                    cloudinary.uploader.upload_stream({}, function (error, result) {
+                        if (error) {
+                            console.log('erro', error)
+                            reject(error)
+                            return
+                        }
+                        resolve(result)
+                    }).end(file.data)
+                })
 
                 const user_id = req.user_id;
 
                 const data: UpdateStoreDTO = updateStoreSchema.parse(req.body);
 
-                const store = await storeService.update(user_id, { ...data, photo: filename });
+                const store = await storeService.update(user_id, { ...data, photo: resultFile.url });
 
                 return res.status(200).json(store);
             }

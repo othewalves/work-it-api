@@ -10,8 +10,6 @@ import cors from 'cors';
 import fileUpload from 'express-fileupload';
 const app = express();
 
-const PORT = 5000;
-
 app.use(express.json());
 
 app.use(cookieParser());
@@ -47,6 +45,6 @@ app.use('/solution', router.solutionRouter);
 app.use('/address', router.addressRouter);
 app.use('/category', router.categoryRouter);
 
-app.listen(PORT, () => {
-    console.log(`API no ar, acesse: http://localhost:${PORT}`)
+app.listen(process.env.PORT, () => {
+    console.log(`API no ar, acesse: http://localhost:${process.env.PORT}`)
 })
