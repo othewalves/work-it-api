@@ -12,7 +12,7 @@ class AuthUserController {
 
             // Setar cookie com token JWT
             res.cookie('workit_token', auth.token, {
-                httpOnly: true,
+                httpOnly: false,
                 secure: false, // em localhost
                 sameSite: 'lax',
                 maxAge: 15 * 24 * 60 * 60 * 1000, // 15 dias
