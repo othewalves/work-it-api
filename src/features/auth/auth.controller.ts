@@ -18,10 +18,10 @@ class AuthUserController {
             // Setar cookie com token JWT
             res.cookie('workit_token', auth.token, {
                 httpOnly: true,
-                secure: isProduction,              // true só em produção
-                sameSite: isProduction ? 'none' : 'lax',
-                maxAge: 15 * 24 * 60 * 60 * 1000, // 15 dias
-                path: '/'
+                secure: process.env.NODE_ENV === "production", // só true em HTTPS
+                sameSite: 'none', // necessário para cross-site
+                maxAge: 15 * 24 * 60 * 60 * 1000,
+                path: '/',
             });
 
             return res.status(200).json({ user: auth.user });
