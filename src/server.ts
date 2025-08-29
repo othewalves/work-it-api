@@ -29,10 +29,10 @@ app.use(fileUpload({
     }
 }))
 
-app.use(
-    '/files',
-    express.static(path.resolve(__dirname, '..', 'tmp'))
-);
+// app.use(
+//     '/files',
+//     express.static(path.resolve(__dirname, '..', 'tmp'))
+// );
 
 app.get('/', (_req: Request, res: Response) => {
     res.send('API do Reservaê tá on!👋')
