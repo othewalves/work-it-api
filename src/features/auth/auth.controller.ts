@@ -4,6 +4,9 @@ import { AuthUserDTO, AuthUserSchema } from "./auth.schema";
 import { handleError } from "../../utils";
 
 class AuthUserController {
+    async check(req: Request, res: Response) {
+        return res.status(200).json({ authenticated: true });
+    }
     async login(req: Request, res: Response) {
         try {
             const data: AuthUserDTO = AuthUserSchema.parse(req.body);
@@ -14,7 +17,7 @@ class AuthUserController {
             res.cookie('workit_token', auth.token, {
                 httpOnly: true,
                 secure: false, // em localhost
-                sameSite: 'lax',
+                sameSite: 'none',
                 maxAge: 15 * 24 * 60 * 60 * 1000, // 15 dias
                 path: '/'
             });
@@ -29,7 +32,7 @@ class AuthUserController {
             res.clearCookie('workit_token', {
                 httpOnly: true,
                 secure: false,
-                sameSite: 'lax',
+                sameSite: 'none',
             });
             res.status(200).json({ message: 'Logout feito com sucesso' });
 
