@@ -13,11 +13,13 @@ class AuthUserController {
 
             const auth = await new AuthUserService().login(data);
 
+            const isProduction = process.env.NODE_ENV === 'production';
+
             // Setar cookie com token JWT
             res.cookie('workit_token', auth.token, {
                 httpOnly: true,
-                secure: false, // em localhost
-                sameSite: 'none',
+                secure: isProduction,              // true só em produção
+                sameSite: isProduction ? 'none' : 'lax',
                 maxAge: 15 * 24 * 60 * 60 * 1000, // 15 dias
                 path: '/'
             });
