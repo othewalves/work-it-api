@@ -14,12 +14,18 @@ app.use(express.json());
 
 app.use(cookieParser());
 
+const allowedOrigin =
+    process.env.NODE_ENV === "production"
+        ? "http://localhost:3000"
+        : "http://localhost:3000";
+
 app.use(cors({
-    origin: "http://localhost:3000",
+    origin: allowedOrigin,
     credentials: true,
-    allowedHeaders: ["Content-Type", "Authorization"], // inclui os headers que vc usa
+    allowedHeaders: ["Content-Type", "Authorization"],
     methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
 }));
+
 
 // app.disable("etag");
 
