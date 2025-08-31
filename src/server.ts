@@ -14,14 +14,9 @@ app.use(express.json());
 
 app.use(cookieParser());
 
-const allowedOrigin =
-    process.env.NODE_ENV === "production"
-        ? "https://reservae-pi.vercel.app"
-        : "http://localhost:3000";
-
 app.use(cors({
-    origin: allowedOrigin,
-    credentials: true,
+    origin: "https://reservae-pi.vercel.app", // domínio do front
+    credentials: true, // permite envio/recebimento de cookies
     allowedHeaders: ["Content-Type", "Authorization"],
     methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
 }));

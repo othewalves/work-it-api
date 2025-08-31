@@ -13,16 +13,12 @@ class AuthUserController {
 
             const auth = await new AuthUserService().login(data);
 
-            const isProduction = process.env.NODE_ENV === 'production';
-
-            res.cookie("workit_token", auth.token, {
+            res.cookie("token", auth.token, {
                 httpOnly: true,
-                secure: process.env.NODE_ENV === "production",
-                sameSite: "none",
-                maxAge: 15 * 24 * 60 * 60 * 1000,
-                path: "/",
+                secure: true, // precisa ser true em produção com HTTPS
+                sameSite: "none", // ESSENCIAL para domínios diferentes (cross-site)
+                maxAge: 1000 * 60 * 60 * 24, // 1 dia por exemplo
             });
-
             return res.status(200).json({ user: auth.user });
         } catch (error) {
             return handleError(error, res);
