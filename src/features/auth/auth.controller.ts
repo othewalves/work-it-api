@@ -15,13 +15,12 @@ class AuthUserController {
 
             const isProduction = process.env.NODE_ENV === 'production';
 
-            // Setar cookie com token JWT
-            res.cookie('workit_token', auth.token, {
+            res.cookie("workit_token", auth.token, {
                 httpOnly: true,
-                secure: process.env.NODE_ENV === "production", // só true em HTTPS
-                sameSite: 'none', // necessário para cross-site
+                secure: process.env.NODE_ENV === "production",
+                sameSite: "none",
                 maxAge: 15 * 24 * 60 * 60 * 1000,
-                path: '/',
+                path: "/",
             });
 
             return res.status(200).json({ user: auth.user });

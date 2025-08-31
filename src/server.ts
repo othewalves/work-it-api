@@ -16,7 +16,7 @@ app.use(cookieParser());
 
 const allowedOrigin =
     process.env.NODE_ENV === "production"
-        ? "https://reservae-pi.vercel.app/"
+        ? "https://reservae-pi.vercel.app"
         : "http://localhost:3000";
 
 app.use(cors({
