@@ -17,7 +17,7 @@ class AuthUserController {
                 success: true,
                 user: {
                     ...user,
-                    token
+                    token: token
                 }
             });
         } catch (error) {
