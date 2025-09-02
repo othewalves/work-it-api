@@ -17,9 +17,10 @@ class AuthUserController {
 
             res.cookie("workit_token", token, {
                 httpOnly: true,
-                secure: true,        // false em dev, true em produção com HTTPS
-                sameSite: "none",     // ou "lax" se front e back forem no mesmo domínio
-                maxAge: ONE_DAY // 1 dia
+                secure: true,        // obrigatório HTTPS
+                sameSite: "none",    // cross-site
+                domain: ".railway.app", // força o cookie pro domínio correto
+                maxAge: ONE_DAY
             });
 
             return res.status(200).json({
