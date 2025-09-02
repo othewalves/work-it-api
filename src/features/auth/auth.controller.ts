@@ -19,7 +19,8 @@ class AuthUserController {
                 httpOnly: true,
                 secure: true,        // obrigatório HTTPS
                 sameSite: "none",    // cross-site
-                domain: ".railway.app", // força o cookie pro domínio correto
+                domain: ".up.railway.app", // força para o domínio correto
+                path: "/",              // garante que seja enviado em todas as rotas
                 maxAge: ONE_DAY
             });
 
