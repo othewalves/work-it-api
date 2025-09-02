@@ -11,15 +11,21 @@ class AuthUserController {
         try {
             const data: AuthUserDTO = AuthUserSchema.parse(req.body);
 
-            const auth = await new AuthUserService().login(data);
+            const { token, user } = await new AuthUserService().login(data);
 
-            res.cookie("token", auth.token, {
+            const ONE_DAY = 1000 * 60 * 60 * 24;
+
+            res.cookie("workit_token", token, {
                 httpOnly: true,
-                secure: true, // precisa ser true em produção com HTTPS
-                sameSite: "none", // ESSENCIAL para domínios diferentes (cross-site)
-                maxAge: 1000 * 60 * 60 * 24, // 1 dia por exemplo
+                secure: true,        // false em dev, true em produção com HTTPS
+                sameSite: "none",     // ou "lax" se front e back forem no mesmo domínio
+                maxAge: ONE_DAY // 1 dia
             });
-            return res.status(200).json({ user: auth.user });
+
+            return res.status(200).json({
+                success: true,
+                user
+            });
         } catch (error) {
             return handleError(error, res);
         }

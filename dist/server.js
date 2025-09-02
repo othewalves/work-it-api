@@ -45,9 +45,9 @@ const app = (0, express_1.default)();
 app.use(express_1.default.json());
 app.use((0, cookie_parser_1.default)());
 app.use((0, cors_1.default)({
-    origin: "http://localhost:3000",
-    credentials: true,
-    allowedHeaders: ["Content-Type", "Authorization"], // inclui os headers que vc usa
+    origin: "https://reservae-pi.vercel.app", // domínio do front
+    credentials: true, // permite envio/recebimento de cookies
+    allowedHeaders: ["Content-Type", "Authorization"],
     methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
 }));
 // app.disable("etag");

@@ -9,13 +9,10 @@ export const isAuthenticated = (req: Request, res: Response, next: NextFunction)
     const authToken = req.headers.authorization;
     const token = req.cookies.workit_token;
 
-    // if (!authToken) {
-    //     res.status(401).end();
-    //     return;
-    // }
-
-    // const [, token] = authToken.split(' ');
-
+    if (!token) {
+        res.status(401).json({ error: "Token not found" });
+        return;
+    }
 
     try {
         const { sub } = verify(

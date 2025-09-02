@@ -14,20 +14,30 @@ const auth_service_1 = require("./auth.service");
 const auth_schema_1 = require("./auth.schema");
 const utils_1 = require("../../utils");
 class AuthUserController {
+    check(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return res.status(200).json({ authenticated: true });
+        });
+    }
     login(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const data = auth_schema_1.AuthUserSchema.parse(req.body);
-                const auth = yield new auth_service_1.AuthUserService().login(data);
-                // Setar cookie com token JWT
-                res.cookie('workit_token', auth.token, {
-                    httpOnly: true,
-                    secure: false, // em localhost
-                    sameSite: 'lax',
-                    maxAge: 15 * 24 * 60 * 60 * 1000, // 15 dias
-                    path: '/'
+                const { token, user } = yield new auth_service_1.AuthUserService().login(data);
+                const ONE_DAY = 1000 * 60 * 60 * 24;
+                res.cookie("token", token, {
+                    httpOnly: true, // não acessível via JS -> protege de XSS
+                    secure: process.env.NODE_ENV === "production", // só HTTPS em prod
+                    sameSite: "none", // essencial para funcionar em domínios diferentes (Vercel + Railway)
+                    maxAge: ONE_DAY,
+                    path: "/", // garante que seja enviado em todas as rotas
+                    domain: process.env.COOKIE_DOMAIN || undefined,
+                    // exemplo: ".reservae-pi.vercel.app" se precisar compartilhar entre subdomínios
                 });
-                return res.status(200).json({ user: auth.user });
+                return res.status(200).json({
+                    success: true,
+                    user
+                });
             }
             catch (error) {
                 return (0, utils_1.handleError)(error, res);
@@ -40,7 +50,7 @@ class AuthUserController {
                 res.clearCookie('workit_token', {
                     httpOnly: true,
                     secure: false,
-                    sameSite: 'lax',
+                    sameSite: 'none',
                 });
                 res.status(200).json({ message: 'Logout feito com sucesso' });
             }
