@@ -7,12 +7,16 @@ interface IPayload {
 
 export const isAuthenticated = (req: Request, res: Response, next: NextFunction): void => {
     const authToken = req.headers.authorization;
-    const token = req.cookies.workit_token;
+    // const token = req.cookies.workit_token;
 
-    if (!token) {
-        res.status(401).json({ error: "Token not found" });
+
+    if (!authToken) {
+        res.status(401).end();
         return;
     }
+
+    const [, token] = authToken.split(' ');
+
 
     try {
         const { sub } = verify(

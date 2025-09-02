@@ -13,20 +13,12 @@ class AuthUserController {
 
             const { token, user } = await new AuthUserService().login(data);
 
-            const ONE_DAY = 1000 * 60 * 60 * 24;
-
-            res.cookie("workit_token", token, {
-                httpOnly: true,
-                secure: true,        // obrigatório HTTPS
-                sameSite: "none",    // cross-site
-                domain: ".up.railway.app", // força para o domínio correto
-                path: "/",              // garante que seja enviado em todas as rotas
-                maxAge: ONE_DAY
-            });
-
             return res.status(200).json({
                 success: true,
-                user
+                user: {
+                    ...user,
+                    token
+                }
             });
         } catch (error) {
             return handleError(error, res);
