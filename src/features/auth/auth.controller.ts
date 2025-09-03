@@ -13,6 +13,8 @@ class AuthUserController {
 
             const { token, user } = await new AuthUserService().login(data);
 
+            console.log('chegou aqui?', token);
+
             return res.status(200).json({
                 success: true,
                 user: {
