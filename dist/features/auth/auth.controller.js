@@ -24,19 +24,10 @@ class AuthUserController {
             try {
                 const data = auth_schema_1.AuthUserSchema.parse(req.body);
                 const { token, user } = yield new auth_service_1.AuthUserService().login(data);
-                const ONE_DAY = 1000 * 60 * 60 * 24;
-                res.cookie("token", token, {
-                    httpOnly: true, // não acessível via JS -> protege de XSS
-                    secure: process.env.NODE_ENV === "production", // só HTTPS em prod
-                    sameSite: "none", // essencial para funcionar em domínios diferentes (Vercel + Railway)
-                    maxAge: ONE_DAY,
-                    path: "/", // garante que seja enviado em todas as rotas
-                    domain: process.env.COOKIE_DOMAIN || undefined,
-                    // exemplo: ".reservae-pi.vercel.app" se precisar compartilhar entre subdomínios
-                });
+                console.error("🔥🔥 LOGIN CONTROLLER EXECUTADO 🔥🔥", token);
                 return res.status(200).json({
-                    success: true,
-                    user
+                    user,
+                    token
                 });
             }
             catch (error) {

@@ -19,6 +19,7 @@ class AuthUserController {
                 user,
                 token
             });
+
         } catch (error) {
             return handleError(error, res);
         }
