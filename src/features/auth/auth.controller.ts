@@ -14,6 +14,8 @@ class AuthUserController {
             const { token, user } = await new AuthUserService().login(data);
 
             console.log('chegou aqui?', token);
+            res.setHeader("X-Debug-Token", token);
+
 
             return res.status(200).json({
                 success: true,
