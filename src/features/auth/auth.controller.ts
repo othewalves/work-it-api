@@ -13,7 +13,7 @@ class AuthUserController {
 
             const { token, user } = await new AuthUserService().login(data);
 
-            console.log("🔥🔥 LOGIN CONTROLLER EXECUTADO 🔥🔥", token);
+            console.error("🔥🔥 LOGIN CONTROLLER EXECUTADO 🔥🔥", token);
 
             return res.status(200).json({
                 user,
