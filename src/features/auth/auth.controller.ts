@@ -13,16 +13,11 @@ class AuthUserController {
 
             const { token, user } = await new AuthUserService().login(data);
 
-            console.log('chegou aqui?', token);
-            res.setHeader("X-Debug-Token", token);
-
+            console.log("🔥🔥 LOGIN CONTROLLER EXECUTADO 🔥🔥", token);
 
             return res.status(200).json({
-                success: true,
-                user: {
-                    ...user,
-                },
-                token: token
+                user,
+                token
             });
         } catch (error) {
             return handleError(error, res);
