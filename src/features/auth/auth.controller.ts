@@ -13,8 +13,6 @@ class AuthUserController {
 
             const { token, user } = await new AuthUserService().login(data);
 
-            console.error("🔥🔥 LOGIN CONTROLLER EXECUTADO 🔥🔥", token);
-
             return res.status(200).json({
                 user,
                 token
@@ -24,6 +22,7 @@ class AuthUserController {
             return handleError(error, res);
         }
     }
+
     async logout(req: Request, res: Response) {
         try {
             res.clearCookie('workit_token', {

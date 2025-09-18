@@ -16,12 +16,8 @@ export const CreateSolutionSchema = z.object({
         .number()
         .min(1, { message: 'Duração é obrigatória' }),
     tags: z
-        .array(
-            z.string().trim().min(1, "String não pode ser vazia").max(50, "Máximo de 50 caracteres")
-        )
-        .nonempty("O array não pode estar vazio")
-        .max(20, "Máximo de 20 itens no array")
-        .transform((arr) => Array.from(new Set(arr))),
+        .string()
+        .trim(),
     store_id: z
         .string()
         .nonempty('Nome é obrigatório')
